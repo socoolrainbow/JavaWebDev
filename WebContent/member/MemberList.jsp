@@ -1,0 +1,48 @@
+<%-- 
+<%@ page import="lesson05.vo.Member" %>
+<%@ page import="java.util.ArrayList" %>
+ --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!-- JSTL 선언 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>회원목록</title>
+</head>
+<body>
+<!-- 헤더 jsp 불러옴 -->
+<jsp:include page="/Header.jsp"/>
+<h1>회원 목록</h1>
+<p><a href='add'>신규회원</a></p>
+<%-- 자바빈으로 인스턴스로딩
+<jsp:useBean id="members" scope="request" class="java.util.ArrayList" type="java.util.ArrayList<Member>"></jsp:useBean>
+<%
+/* ArrayList<Member> members = (ArrayList<Member>)request.getAttribute("members"); */ 
+--%>
+
+
+<%-- 표현식 처리
+for(Member member : members) {
+%>
+<%=member.getNo()%>,
+<a href='update?no=<%=member.getNo()%>'><%=member.getName()%></a>,
+<%=member.getEmail()%>,
+<%=member.getCreatedDate()%>
+<a href='delete?no=<%=member.getNo()%>'>[삭제]</a><br>
+<%
+} 
+%>
+ --%>
+<!-- 해당 부분을 JSTL 테그로 처리 훨씬 보기도 편하고 간단한다. -->
+<c:forEach var="member" items="${members }">
+${member.no },
+<a href='update?no=${member.no }'>${member.name}</a>,${member.email},${member.createdDate }<a href='delete?no=${member.no }'>[삭제]</a><br>
+</c:forEach>
+<!-- Tail jsp 불러옴 -->
+<jsp:include page="/Tail.jsp"></jsp:include>
+</body>
+</html>
