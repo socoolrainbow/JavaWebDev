@@ -2,7 +2,6 @@ package lesson05.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -84,12 +83,15 @@ public class MemberUpdateServlet extends HttpServlet
 				throw new Exception("해당 번호의 회원을 찾을 수 없습니다.");
 			}
 			*/
+			
 			member = memberDao.selectOne(Integer.parseInt(req.getParameter("no")));
 			req.setAttribute("member", member);
 			
-			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberUpdateForm.jsp");
+//			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberUpdateForm.jsp");
 			// 해당request정보를 같이 전달.
-			rd.forward(req, resp);
+			
+			req.setAttribute("viewUrl", "/member/MemberUpdateForm.jsp");
+//			rd.forward(req, resp);
 
 //			rs.next();
 
@@ -116,11 +118,13 @@ public class MemberUpdateServlet extends HttpServlet
 		}
 		catch(Exception e)
 		{
-//			throw new ServletException(e);
+			throw new ServletException(e);
+			/*
 			e.printStackTrace();
 			req.setAttribute("error", e);
 			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
 			rd.forward(req, resp);
+			*/
 		}
 		finally
 		{
@@ -173,7 +177,6 @@ public class MemberUpdateServlet extends HttpServlet
 		// 메시지 바디에 한글과 같은 멀티바이트 문자가 있을때 한글 깨짐 방지
 		request.setCharacterEncoding("UTF-8");*/
 //		Connection conn = null;
-		
 //		PreparedStatement stmt = null;
 		
 		try
@@ -205,10 +208,13 @@ public class MemberUpdateServlet extends HttpServlet
 //			conn = (Connection) sc.getAttribute("conn");
 			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
 //			memberDao.setConnection(conn);
-			Member member = new Member().setEmail(request.getParameter("email")).setName(request.getParameter("name")).setNo(Integer.parseInt(request.getParameter("no")));
-			memberDao.update(member);
+//			Member member = new Member().setEmail(request.getParameter("email")).setName(request.getParameter("name")).setNo(Integer.parseInt(request.getParameter("no")));
 			
-			response.sendRedirect("list");
+			Member member = (Member) request.getAttribute("member");
+			memberDao.update(member);
+			request.setAttribute("viewUrl", "redirect:list.do");
+			
+//			response.sendRedirect("list");
 
 		}
 		catch(Exception e)

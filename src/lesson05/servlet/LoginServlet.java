@@ -24,8 +24,9 @@ public class LoginServlet extends HttpServlet
 		// jsp에서 다시 서블릿으로 돌아올 필요가 없어서 인클루딩 대신 포워딩으로 처리 리다이렉트
 		// 로그인 성공시 /member/list페이지로
 		// 로그인 실패시 /auth/LogInFrom.jsp로 포워딩
-		RequestDispatcher rd = req.getRequestDispatcher("/LogInForm.jsp");
-		rd.forward(req, resp);
+//		RequestDispatcher rd = req.getRequestDispatcher("/LogInForm.jsp");
+		req.setAttribute("viewUrl", "/LogInForm.jsp");
+//		rd.forward(req, resp);
 	}
 	
 	@Override
@@ -71,12 +72,14 @@ public class LoginServlet extends HttpServlet
 				HttpSession session = req.getSession();
 				session.setAttribute("member", member);
 				// list페이지로 리다이렉션
-				resp.sendRedirect("member/list");
+				req.setAttribute("viewUrl", "redirect:/member/list.do");
+//				resp.sendRedirect("member/list");
 			}
 			else
 			{
 				RequestDispatcher rd = req.getRequestDispatcher("/LogInFail.jsp");
-				rd.forward(req, resp);
+				req.setAttribute("viewUrl","/LogInFail.jsp");
+//				rd.forward(req, resp);
 			}
 		}
 		catch(Exception e)

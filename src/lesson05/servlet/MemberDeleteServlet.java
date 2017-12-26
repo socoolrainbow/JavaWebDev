@@ -2,7 +2,6 @@ package lesson05.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,12 +46,14 @@ public class MemberDeleteServlet extends HttpServlet
 			stmt = conn.createStatement();
 			stmt.executeUpdate("DELETE FROM MEMBERS WHERE MNO=" + request.getParameter("no"));
 			 */
-			response.sendRedirect("list");
+//			response.sendRedirect("list");
+			request.setAttribute("viewUrl", "redirect:/member/list.do");
 
 		}
 		catch(Exception e)
 		{
-//			throw new ServletException(e);
+			throw new ServletException(e);
+			/*
 			e.printStackTrace();
 			// 생성된 에러를 e객체에 담고 해당 객체를 request로 등록.
 			request.setAttribute("error", e);
@@ -60,7 +61,7 @@ public class MemberDeleteServlet extends HttpServlet
 			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
 			// 자원을 위이하여 다시돌아오지 않는 포워드
 			rd.forward(request, response);
-
+			*/
 		}
 		/* AppInitServlet 서블릿에서 처리
 		finally

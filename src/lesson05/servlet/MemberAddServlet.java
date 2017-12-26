@@ -36,8 +36,10 @@ public class MemberAddServlet extends HttpServlet
 		out.println("</form>");
 		out.println("</body></html>");
 		*/
-		RequestDispatcher rd = req.getRequestDispatcher("/member/MemberAdd.jsp");
-		rd.forward(req, resp);
+		req.setAttribute("viewUrl", "/member/MemberAdd.jsp");
+		
+//		RequestDispatcher rd = req.getRequestDispatcher("/member/MemberAdd.jsp");
+//		rd.forward(req, resp);
 //		rd.include(req, resp);
 	}
 
@@ -71,7 +73,9 @@ public class MemberAddServlet extends HttpServlet
 //			memberDao.setConnection(conn);
 			
 			// req에서 받아온 회원정보대로 맴버 객체를 생성
-			Member member = new Member().setEmail(req.getParameter("email")).setPassword(req.getParameter("password")).setName(req.getParameter("name"));
+//			Member member = new Member().setEmail(req.getParameter("email")).setPassword(req.getParameter("password")).setName(req.getParameter("name"));
+			// 프론트 컨트롤러에서 대신처리하여 등록되어있는 member객체를 불러호출한다.
+			Member member = (Member) req.getAttribute("member");
 			memberDao.insert(member);
 			/*
 			stmt = conn.prepareStatement(
@@ -83,7 +87,7 @@ public class MemberAddServlet extends HttpServlet
 			stmt.executeUpdate();
 			*/
 			// 업데이트 실행후 바로 회원정보 리스트 조회 페이지로 리다이렉트 시킨다.
-			resp.sendRedirect("list");
+//			resp.sendRedirect("list");
 			//리다이렉트는 클라이언트로 본문을 출력하지 않기 때문에 html을 출력하는 코드는 모두 주석처리함.
 /*
 			resp.setContentType("text/html; charset=UTF-8");
@@ -99,15 +103,19 @@ public class MemberAddServlet extends HttpServlet
 			
 /*			// 리프레쉬 정보를 응답 헤더에 추가하여 페이지 로딩후 3초뒤에 list페이지로 이동
 			resp.addHeader("Refresh", "3;url=list");*/
+			
+			req.setAttribute("viewUrl", "redirect:list.do");
 
 		}
 		catch(Exception e)
 		{
-//			throw new ServletException(e);
+			throw new ServletException(e);
+			/*
 			e.printStackTrace();
 			req.setAttribute("error", e);
 			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
 			rd.forward(req, resp);
+			*/
 		}
 		/*
 		finally

@@ -17,7 +17,7 @@
 <!-- 헤더 jsp 불러옴 -->
 <jsp:include page="/Header.jsp"/>
 <h1>회원 목록</h1>
-<p><a href='add'>신규회원</a></p>
+<p><a href='add.do'>신규회원</a></p>
 <%-- 자바빈으로 인스턴스로딩
 <jsp:useBean id="members" scope="request" class="java.util.ArrayList" type="java.util.ArrayList<Member>"></jsp:useBean>
 <%
@@ -40,7 +40,7 @@ for(Member member : members) {
 <!-- 해당 부분을 JSTL 테그로 처리 훨씬 보기도 편하고 간단한다. -->
 <c:forEach var="member" items="${members }">
 ${member.no },
-<a href='update?no=${member.no }'>${member.name}</a>,${member.email},${member.createdDate }<a href='delete?no=${member.no }'>[삭제]</a><br>
+<a href='update.do?no=${member.no }'>${member.name}</a>,${member.email},${member.createdDate }<a href='delete.do?no=${member.no }'>[삭제]</a><br>
 </c:forEach>
 <!-- Tail jsp 불러옴 -->
 <jsp:include page="/Tail.jsp"></jsp:include>

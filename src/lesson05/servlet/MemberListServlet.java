@@ -2,7 +2,6 @@ package lesson05.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +37,8 @@ public class MemberListServlet extends HttpServlet
 				// request 저장객체에 members vo객체를 담으면서 selectList메서드를 실행한다.
 				MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
 				request.setAttribute("members", memberDao.selectList());
-				response.setContentType("text/html; charset=UTF-8");
+				request.setAttribute("viewUrl", "/member/MemberList.jsp");
+//				response.setContentType("text/html; charset=UTF-8");
 				
 				/*
 				stmt = conn.createStatement();
@@ -63,16 +63,19 @@ public class MemberListServlet extends HttpServlet
 				// request에 회원 목록 데이터 보관한다.
 				request.setAttribute("members", members);
 				*/
+				/* 프런트 서블릿에서 처리
 				// JSP로 출력을 위임한다.
 				RequestDispatcher rd = request.getRequestDispatcher("/member/MemberList.jsp");
 				rd.include(request, response);
-				
+				*/
 			} catch (Exception e) {
+				/* 프런트 서블릿에서 처리
 				e.printStackTrace();
 				request.setAttribute("error", e);
 				RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
 				rd.forward(request, response);
-				
+				*/
+				throw new ServletException(e);
 			} 
 			/*
 			finally 

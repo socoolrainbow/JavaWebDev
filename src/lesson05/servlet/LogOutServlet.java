@@ -20,6 +20,8 @@ public class LogOutServlet extends HttpServlet
 		// HttpSession 객체를 무효화 하기위해 invalidate를 호출. 
 		// 세션 객체가 무효화 된다는 것은 HttpSession 객체가 제거된다는 것을 의미한
 		session.invalidate();
-		resp.sendRedirect("login");
+		req.setAttribute("viewUrl", "redirect:/login.do");
+//		resp.sendRedirect("login");
+		
 	}
 }
