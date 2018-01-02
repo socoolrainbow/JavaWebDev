@@ -2,7 +2,6 @@ package lesson05.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -77,7 +76,7 @@ public class LoginServlet extends HttpServlet
 			}
 			else
 			{
-				RequestDispatcher rd = req.getRequestDispatcher("/LogInFail.jsp");
+//				RequestDispatcher rd = req.getRequestDispatcher("/LogInFail.jsp");
 				req.setAttribute("viewUrl","/LogInFail.jsp");
 //				rd.forward(req, resp);
 			}
